@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>table</title>
+    <link rel="stylesheet" href="../static/list.css"/>
+    <script src="../static/list.js"></script>
+</head>
+<body>
+<div class="content">
+    <table>
+        <thead>
+        <tr>
+            <td>姓名</td>
+            <td>电话</td>
+            <td>邮箱</td>
+            <td>住址</td>
+            <td>QQ</td>
+        </tr>
+        </thead>
+        <tbody>
+        <!--循环迭代对象Thymeleaf的th:each，通过传入的getTableInfo这个Vector可以将各个行展现出来-->
+        <tr th:each="m:${session.table.getTable()}">
+            <td th:text="${m.getName()}"></td>
+            <td th:text="${m.getTel()}"></td>
+            <td th:text="${m.getEmail()}"></td>
+            <td th:text="${m.getAddress()}"></td>
+            <td th:text="${m.getQQ()}"></td>
+            <td style="border: 0;">
+                <button class="changebutton" onclick="change(this)">编 辑</button>
+                <button class="delbutton" onclick="del(this)">删 除</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="change_div">
+        <button class="addbutton" onclick="add()">添 加</button>
+        <button class="exit" onclick="exit()">退出系统</button>
+    </div>
+</div>
+</body>
+</html>

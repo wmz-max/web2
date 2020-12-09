@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>table</title>
+    <link rel="stylesheet" href="../static/list.css"/>
+    <script src="../static/list.js"></script>
+</head>
+<body>
+<div class="content">
+    <table border=”1” width=”500”>
+        <thead>
+        <tr>
+            <td>姓名</td>
+            <td>电话</td>
+            <td>邮箱</td>
+            <td>住址</td>
+            <td>QQ</td>
+        </tr>
+        </thead>
+        <tbody>
+        <!--循环迭代对象Thymeleaf的th:each，通过传入的getTableInfo这个Vector可以将各个行展现出来-->
+        <tr th:each="m:${session.table.getTable()}">
+            <td th:text="${m.getName()}"></td>
+            <td th:text="${m.getTel()}"></td>
+            <td th:text="${m.getEmail()}"></td>
+            <td th:text="${m.getAddress()}"></td>
+            <td th:text="${m.getQQ()}"></td>
+            <td>
+                <button class="changebutton" onclick="change(this)">编 辑</button>
+                <button class="delbutton" onclick="del(this)">删 除</button>
+                </form>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+
+    <form action="exit"   method="post">
+        <div style="text-align: center;margin-top: 50px;">
+            <input type="submit" class="button" value="exit">
+        </div>
+    </form>
+    <form action="add"   method="post">
+        <div style="text-align: center;margin-top: 50px;">
+            <input type="submit" class="button" value="add">
+        </div>
+    </form>
+
+</div>
+
+</body>
+</html>
+<script>
+    function change(elem) {
+        var row = elem.parentNode.parentNode.rowIndex - 1
+        var temp = document.createElement("form")
+        temp.action = "/change"
+        temp.method = "post"
+        temp.style.display = "none"
+        //由于form类型的元素没办法设置value值，所以随便创建一个其他类型的元素记录，将row值加载body后面
+        var current = document.createElement("textarea")
+        current.name = "row"
+        current.value = row.toString()
+        temp.appendChild(current)
+        document.body.appendChild(temp)
+        temp.submit()
+    }
+    function del(elem) {
+        //第一次parentNode得到td标签的位置，第二次parentNode得到tr标签的位置
+        var row = elem.parentNode.parentNode.rowIndex -1
+        var tr = elem.parentNode.parentNode
+        var tbody = tr.parentNode
+        var temp = document.createElement("form")
+        temp.action = "/del"
+        temp.method = "post"
+        temp.style.display = "none"
+        var opt = document.createElement("textarea")
+        opt.name = "row"
+        opt.value = row.toString()
+        temp.appendChild(opt)
+        document.body.appendChild(temp)
+        //找到tr标签后删掉
+        tbody.removeChild(tr)
+        temp.submit()
+    }
+</script>

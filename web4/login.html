@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--引用样式文件，位置随意-->
+    <link rel="stylesheet" href="../static/login.css"/>
+</head>
+
+<body>
+<!--应要求，在页面开头提示需要输入的用户名密码-->
+<p>
+    用户名->admin
+    密码->123456
+</p>
+<!--form表单提交的用户名和密码会作为一个结构体LoginInfo提交,该结构体包含username和password-->
+<!--传给login.html进行处理的模型是一个LoginInfo类型的变量user-->
+<form th:object="${user}" action="checklogin" method="post">
+    <!--field把input的内容绑定到一个变量中-->
+    <table>
+        <tr>
+            <td><span>用户名</span></td>
+            <td><input th:field="*{username}" th:text="${user.username}" type="text" id="username" required></td>
+        </tr>
+        <tr>
+            <td><span>密 码</span></td>
+            <td><input th:field="*{password}" th:text="${user.password}" type="password" id="password" pattern=".{6,}"
+                       maxlength="16" required></td>
+        </tr>
+    </table>
+    <input type="submit" value="登录">
+    <!--登录错误提示信息,与user的message变量绑定,如果message是空就不会显示这个标签-->
+    <span class="alert" th:if="${user.message}" th:text="${user.message}"></span>
+</form>
+</body>
+</html>

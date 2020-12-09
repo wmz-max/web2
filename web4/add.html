@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"><!--自适应宽度和缩放-->
+    <title>Add</title>
+    <link rel="stylesheet" href="../static/add.css"/>
+    <script src="../static/add.js"></script>
+</head>
+<body>
+<div>
+    <h1>新的联系人</h1>
+    <!--form表单提交的联系人会作为一个结构体linkman提交,包含姓名 电话 邮箱 地址 QQ-->
+    <form action="/checkadd" method="post" th:object="${linkman}">
+        <table>
+            <tr>
+                <td><span>姓名</span></td>
+                <td>
+                    <input type="text" id="linker_Name" th:field="*{name}"
+                           oninput="check('linker_Name')" pattern="[\u4e00-\u9fa5|a-zA-Z|\s*]{2,}"
+                           placeholder="请输入姓名" required/>
+                </td>
+                <td><p id="pname">请输入姓名</p></td>
+            </tr>
+            <tr>
+                <td><span>电话</span></td>
+                <td>
+                    <input type="text" id="linker_Phone" th:field="*{tel}" maxlength="11"
+                           oninput="check('linker_Phone')" pattern="1\d{10}"
+                           placeholder="请输入8位手机号" required/>
+                </td>
+                <td><p id="pphone">请输入电话</p></td>
+            </tr>
+            <tr>
+                <td><span>邮箱</span></td>
+                <td>
+                    <input type="email" id="linker_Email" th:field="*{email}"
+                           oninput="check('linker_Email')" pattern="(\w-*\.*)+@(\w-?)+\.+(com|cn)+"
+                           placeholder="请输入邮箱" required/>
+                </td>
+                <td><p id="pemail">请输入邮箱</p></td>
+            </tr>
+            <tr>
+                <td><span>住址</span></td>
+                <td>
+                    <input type="text" id="linker_Address" th:field="*{address}" oninput="check('linker_Address')"
+                           autocomplete="off" maxlength="50" pattern=".+"
+                           placeholder="请输入住址" required/>
+                </td>
+                <td><p id="paddress">请输入住址</p></td>
+            </tr>
+            <tr>
+                <td><span>QQ</span></td>
+                <td>
+                    <input type="text" id="linker_QQ" th:field="*{QQ}" oninput="check('linker_QQ')"
+                           maxlength="10" pattern="[0-9]{8,10}"
+                           placeholder="请输入QQ号" required/>
+                </td>
+                <td><p id="pqq">请输入QQ</p></td>
+            </tr>
+        </table>
+        <br>
+        <input type="submit" id="sub" value="提交"
+               style="margin: 0 auto;">
+        <span class="alert" th:if="${linkman.message}" th:text="${linkman.message}"></span>
+    </form>
+</div>
+</body>
+</html>
